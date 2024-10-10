@@ -1,8 +1,9 @@
 // Mongodb database client
 const { MongoClient, ServerApiVersion } = require("mongodb");
+require('dotenv').config();
 
 // Using MongoDB Atlas cloud storage
-const uri = 'mongodb+srv://vcanokwuru:Phillipians419@cluster0.0sscg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+const uri = process.env.DB_URI || 'undefined';
 
 class DBClient {
   constructor() {
@@ -28,8 +29,7 @@ class DBClient {
       console.log("Connected successfully to MongoDB Atlas");
       this.db = this.client.db("vc_collections");
       this.products = this.db.collection("products");
-      // Uncomment the next line if you have a users collection
-      // this.users = this.db.collection("users");
+      this.users = this.db.collection("users");
     } catch (error) {
       console.error("Failed to connect to MongoDB:", error);
     }

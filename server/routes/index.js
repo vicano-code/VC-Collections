@@ -2,7 +2,7 @@ const express = require('express');
 const ProductsController = require('../controllers/ProductsController');
 
 const router = express.Router();
-//const productsController = new ProductsController();
+
 // Define routes
 router.get('/', (req, res) => {
   res.send('Welcome to the API!');

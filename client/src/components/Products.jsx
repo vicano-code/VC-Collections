@@ -16,10 +16,11 @@ const Products = () => {
       try {
         const response = await axios.get('http://localhost:5000/products');
         const products = response.data;
+        console.log(products);
         if (componentMounted.current) {
           setData(products);
           setFilter(products);
-          setLoading(false); // <-- Set loading to false here after setting data
+          setLoading(false); // Set loading to false here after setting data
         }
       } catch (err) {
         console.error("Error fetching products:", err);
@@ -48,7 +49,12 @@ const Products = () => {
 
   const filterProduct = (cat) => {
     const updatedList = data.filter((x) => x.category === cat);
-    setFilter(updatedList);
+    if (updatedList.length > 0) {
+      setFilter(updatedList);
+    } else {
+      console.warn("No products found in this category.");
+      setFilter([]); // Clear filter if no matching products
+    }
   };
 
   const ShowProducts = () => {
@@ -88,7 +94,7 @@ const Products = () => {
         </div>
         <div className="row">
           {filter.map((product) => (
-            <div className="col-md-3 mb-4" key={product.id}>
+            <div className="col-md-3 mb-4" key={product._id}>
               <div className="card h-100 text-center p-4">
                 <img
                   src={product.image}
@@ -102,7 +108,7 @@ const Products = () => {
                   </h5>
                   <p className="card-text lead fw-bold">${product.price}</p>
                   <NavLink
-                    to={`/products/${product.id}`}
+                    to={`/products/${product._id}`}
                     className="btn btn-outline-dark"
                   >
                     Buy Now
