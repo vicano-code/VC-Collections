@@ -34,8 +34,6 @@
 /* Home */
 .advert{
   display:block;
-
- 
 }
 .swiper-slide img{
   width: 100%;
@@ -69,3 +67,22 @@
   margin-top: 4px;
   font-size: 18px;
 }
+
+/* Cart */
+#cart {
+  display: 'flex';
+  justify-content: 'center';
+  align-items: 'center';
+  height: '100vh'
+}
+table {
+  border-spacing: 30px;
+}
+th, td {
+  padding: 15px;
+}
+tr {
+  border-bottom: 1px solid #ddd;
+}
+tr:hover {background-color: #D6EEEE;}
+
