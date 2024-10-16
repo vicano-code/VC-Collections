@@ -5,7 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 const Login = () => {
   // Create ref to access the form element
   const formRef = useRef(null);
-  const [errorMessage, setErrorMessage] = useState(""); // Error state
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -27,15 +27,17 @@ const Login = () => {
       setTimeout(() => {
         setErrorMessage("");
         formRef.current.reset(); // Clear the entire form
-        navigate("/"); // Redirect to home page
+        // Redirect to User account page and pass the user data to the UserAccount component
+        navigate("/userAccount", { state: { userData } }); 
       }, 3000);
+
     } catch (error) {
       console.error("Error:", error.message);
       setErrorMessage("Error: " + error.message);
     }
   };
   return (
-    <div>
+    <>
       <section className="vh-100">
         <div className="container py-2 mt-5">
           <div className="row d-flex justify-content-center align-items-center h-100">
@@ -133,7 +135,7 @@ const Login = () => {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 };
 
