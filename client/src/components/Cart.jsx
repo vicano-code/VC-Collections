@@ -1,7 +1,7 @@
 //import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addCart, delCart } from "../redux/action";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const ItemList = () => {
   const state = useSelector((state) => state.handleCart);
@@ -33,8 +33,8 @@ const ItemList = () => {
             <td>{item.title}</td>
             <td>{item.qty}</td>
             <td>$ {item.price}</td>
-            <td><button onClick={() => addProduct(item)} style={{border: '1px solid black', background: 'None'}}><FontAwesomeIcon icon="fa-solid fa-square-plus" /></button></td>
-            <td><FontAwesomeIcon icon="fa-solid fa-square-minus" onClick={() => delProduct(item)}/></td>
+            <td><button onClick={() => addProduct(item)} className="cartBtn">+</button></td>
+            <td><button onClick={() => delProduct(item)} className="cartBtn">-</button></td>
           </tr>
         ))}
         <tr>

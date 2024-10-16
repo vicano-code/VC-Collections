@@ -86,3 +86,10 @@ tr {
 }
 tr:hover {background-color: #D6EEEE;}
 
+.cartBtn {
+  background-color: black;
+  color: white;
+  font-size: large;
+  border-radius: 4px;
+}
+
