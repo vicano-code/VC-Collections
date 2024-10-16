@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
 });
 router.get ('/products', ProductsController.getAllProducts);
 router.get ('/products/:id', ProductsController.getProductById);
-router.post('/users/addUser', UsersController.addNewUser);
+router.post('/users/login', UsersController.loginUser);
+router.post('/users/register', UsersController.addNewUser);
 
 module.exports = router;

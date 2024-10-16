@@ -19,13 +19,47 @@ class UsersController {
       const hashedPassword = sha1(password);
 
       // Create new user
-      const newUser = { name, email, password: hashedPassword };
-      const result = await dbClient.users.insertOne(newUser);
-      return res.status(201).send({ message: 'User data saved successfully!', result });
+      const now = new Date();
+      const dateStr = now.toISOString(); // e.g., "2024-10-16T10:30:00.000Z"
+      const newUser = { name, email, password: hashedPassword, created: dateStr };
+      const doc = await dbClient.users.insertOne(newUser);
+      if (!doc.acknowledged) {
+        return res.status(400).send({ error: 'User insert operation was not successful.' });
+      } 
+
+      // Omit the hashed password in the response for security
+      const { password: _, ...userWithoutPassword } = newUser; // Destructure to omit password
+      return res.status(201).send({ message: 'User data saved successfully!', user: userWithoutPassword });
 
     } catch(error) {
       console.error('Error creating user:', error.message);
-      res.status(500).send('Error creating user')
+      res.status(500).send('Error creating user');
+    }
+  }
+
+  static async loginUser(req, res) {
+    // Check if email exists in DB
+    const { email, password } = req.body;
+    try {
+      const user = await dbClient.users.findOne({ email });
+      if (!user) {
+        return res.status(404).send({ error: 'User not found' });
+      }
+
+      // Check if the provided password matches the hashed password in the database
+      const hashedPassword = sha1(password);
+      if (user.password !== hashedPassword) {
+        return res.status(401).send({ error: 'Invalid password' });
+      }
+
+      // Successfully authenticated
+      // const { password: _, ...userWithoutPassword } = user; // Omit password from response
+      //console.log(userWithoutPassword);
+      return res.status(200).send({ message: 'Login successful', user });
+
+    } catch (error) {
+      console.error('Error during login:', error.message);
+      return res.status(500).send({ error: 'Internal Server Error' });
     }
   }
 }
