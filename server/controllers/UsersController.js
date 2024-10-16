@@ -13,7 +13,7 @@ class UsersController {
 
       // Check if existing user in DB
       const existingUser = await dbClient.users.findOne({ email });
-      if (existingUser) return res.status(400).json({ error: 'Already exist' });
+      if (existingUser) return res.status(400).send({ error: 'Already exist' });
 
       // Hash password using SHA1
       const hashedPassword = sha1(password);
