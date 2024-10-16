@@ -26,20 +26,20 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/users/addUser",
+        "http://localhost:5000/users/register",
         { name, email, password },
         { headers: { "Content-Type": "application/json" } }
       );
       console.log("User added:", response.data);
       setErrorMessage("Registration Successful...rediecting");
-      formRef.current.reset(); // Clear the entire form
       setTimeout(() => {
         setErrorMessage("") // clear
+        formRef.current.reset(); // Clear the entire form
         navigate("/"); // Redirect to home page
       }, 3000);
 
     } catch (error) {
-      console.error("Error:", error.message);
+      // console.error("Error:", error.message);
       setErrorMessage("Error: " + error.message);
     }
   };

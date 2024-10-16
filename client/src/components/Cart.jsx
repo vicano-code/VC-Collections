@@ -20,7 +20,7 @@ const ItemList = () => {
   // Compute total price of items in cart
   const totalPrice = () => {
     let totalAmt = state.reduce((accumulator, item) => accumulator + (item.price*item.qty), 0);
-    return totalAmt;
+    return parseFloat(totalAmt.toFixed(2));
   }
 
   return (

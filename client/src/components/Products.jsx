@@ -16,7 +16,7 @@ const Products = () => {
       try {
         const response = await axios.get('http://localhost:5000/products');
         const products = response.data;
-        console.log(products);
+        //console.log(products);
         if (componentMounted.current) {
           setData(products);
           setFilter(products);
