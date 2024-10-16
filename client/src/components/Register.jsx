@@ -1,11 +1,12 @@
 import React, { useState, useRef } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
   // Create ref to access the form element
   const formRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState(""); // Error state
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     // Prevent the default form submission behavior
@@ -30,9 +31,12 @@ const Register = () => {
         { headers: { "Content-Type": "application/json" } }
       );
       console.log("User added:", response.data);
-      setErrorMessage(""); // clear any previous error messages
+      setErrorMessage("Registration Successful...rediecting");
       formRef.current.reset(); // Clear the entire form
-      
+      setTimeout(() => {
+        setErrorMessage("") // clear
+        navigate("/"); // Redirect to home page
+      }, 3000);
 
     } catch (error) {
       console.error("Error:", error.message);
