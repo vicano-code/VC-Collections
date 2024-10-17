@@ -27,7 +27,8 @@ class UsersController {
         email,
         password: hashedPassword,
         created: dateStr,
-        loginHistory: []
+        loginHistory: [],
+        orders: [],
       };
       const doc = await dbClient.users.insertOne(newUser);
       if (!doc.acknowledged) {
@@ -50,6 +51,7 @@ class UsersController {
     }
   }
 
+  // user login
   static async loginUser(req, res) {
     // Check if email exists in DB
     const { email, password } = req.body;
@@ -86,6 +88,48 @@ class UsersController {
     } catch (error) {
       console.error("Error during login:", error.message);
       return res.status(500).send({ error: "Internal Server Error" });
+    }
+  }
+
+  // Update user data
+  static async addOrder(req, res) {
+    const email = req.body.userData.email;
+    const orderData = req.body.orderData;
+
+    try {
+      // Fetch current user data to get the existing order history
+      const user = await dbClient.users.findOne({ email });
+      
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      const updatedOrderHistory = [...(user.orders || []), ...orderData];
+      const update = { $set: { orderHistory: updatedOrderHistory } };
+
+      const result = await dbClient.users.updateOne({ email }, update);
+
+      if (result.modifiedCount > 0) {
+        console.log("Document updated successfully");
+        return res.status(200).json({ message: "Order added successfully" });
+      } else {
+        console.log("No documents matched the filter. No updates were made.");
+        return res.status(304).json({ message: "No changes made" });
+      }
+    } catch {
+      console.error("Error updating document:", error);
+      res.status(500).json({ message: "An error occurred while updating the order" });
+    }
+  }
+
+  // Delete user from database
+  static async deleteUser(req, res) {
+    const userEmail = req.params.email;
+    try {
+      await dbClient.products.findOneAndDelete({ email: userEmail });
+      res.status(200).send("User deleted successfully");
+    } catch (error) {
+      res.status(500).send(`Error deleting user: ${error.message}`);
     }
   }
 }

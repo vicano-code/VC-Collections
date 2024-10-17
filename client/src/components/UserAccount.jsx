@@ -8,7 +8,7 @@ const UserAccount = () => {
     <>
       <h5>Welcome {userData.user.name}</h5>
       <br />
-      <h6>Purchase History</h6>
+      <h6>Order History</h6>
     </>
   )
 }

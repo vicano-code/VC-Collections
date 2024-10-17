@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
+// let userData = {};
+
 const Login = () => {
   // Create ref to access the form element
   const formRef = useRef(null);
@@ -22,7 +24,7 @@ const Login = () => {
         { headers: { "Content-Type": "application/json" } }
       );
       const userData = response.data;
-      console.log("User:", userData);
+      // console.log("User:", userData);
       setErrorMessage("Login Successful...redirecting");
       setTimeout(() => {
         setErrorMessage("");
