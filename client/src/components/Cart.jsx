@@ -2,7 +2,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { addCart, delCart } from "../redux/action";
 import axios from "axios";
-import userData from './Login';
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const ItemList = () => {
@@ -69,7 +68,7 @@ const ItemList = () => {
     try {
       await axios.post(
         "http://localhost:5000//users/addOrder",
-        { userData, orderData },
+        { orderData },
         { headers: { "Content-Type": "application/json" } }
       );
       console.log('User order history updated');
