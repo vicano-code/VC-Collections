@@ -20,7 +20,7 @@ const handleCart = (state = cart, action) => {
 
     case REMOVE_ITEM:
         const exist1 = state.find((x) => x.id === product.id);
-        if (exist1 === null) {
+        if (exist1 === null || exist1 === 0) {
           return
         }
         if (exist1.qty === 1) {
