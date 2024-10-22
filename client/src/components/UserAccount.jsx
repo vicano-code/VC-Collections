@@ -7,7 +7,7 @@ const UserAccount = () => {
   const lastLogin = userData.user.loginHistory.slice(-2, -1)[0];
   console.log(userData);
   return (
-    <>
+    <div id='userAcct'>
       <h5>Welcome {userData.user.name}</h5>
       <br />
       <p>Last Login: {lastLogin}</p>
@@ -33,7 +33,7 @@ const UserAccount = () => {
         )) : <></>}
         </tbody>
       </table>
-    </>
+    </div>
   )
 }
 
