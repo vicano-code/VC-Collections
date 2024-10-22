@@ -1,8 +1,10 @@
 const dbClient = require("../utils/db");
 const sha1 = require("sha1");
+import { v4 as uuidv4 } from 'uuid';
+import redisClient from '../utils/redis';
 
 class UsersController {
-  // Put registered user in database
+  // Add registered user in database
   static async addNewUser(req, res) {
     try {
       const { name, email, password } = req.body;
@@ -28,7 +30,7 @@ class UsersController {
         password: hashedPassword,
         created: dateStr,
         loginHistory: [],
-        orders: [],
+        orderHistory: [],
       };
       const doc = await dbClient.users.insertOne(newUser);
       if (!doc.acknowledged) {
@@ -53,19 +55,19 @@ class UsersController {
 
   // user login
   static async loginUser(req, res) {
-    // Check if email exists in DB
-    const { email, password } = req.body;
-    try {
-      const user = await dbClient.users.findOne({ email });
-      if (!user) {
-        return res.status(404).send({ error: "User not found" });
-      }
+    // Decode the email and password from the Authorization header
+    const authHeader = req.header('Authorization') || '';
+    const base64Credentials = authHeader.split(' ')[1]; // Get the encoded part
+    if (!base64Credentials) return res.status(401).send({ error: 'Unauthorized' });
 
-      // Check if the provided password matches the hashed password in the database
-      const hashedPassword = sha1(password);
-      if (user.password !== hashedPassword) {
-        return res.status(401).send({ error: "Invalid password" });
-      }
+    const decodedCredentials = Buffer.from(base64Credentials, 'base64').toString('utf-8');
+    const [email, password] = decodedCredentials.split(':');
+
+    // Check if email exists in DB
+    try {
+       // Authenticate the user using the decoded email and password
+      const user = await dbClient.users.findOne({ email, password: sha1(password) });
+      if (!user) return res.status(401).json({ error: 'Unauthorized' });
 
       // Successfully authenticated
       const { password: _, ...userWithoutPassword } = user; // Omit password from response
@@ -82,13 +84,37 @@ class UsersController {
       } else {
         console.log("No documents matched the filter. No updates were made.");
       }
-      return res
-        .status(200)
-        .send({ message: "Login successful", user: userWithoutPassword });
+
+      // Generate a token and store it in Redis
+      try {
+        const token = uuidv4();
+        const tokenKey = `auth_${token}`;
+        await redisClient.set(tokenKey, user._id.toString(), 'EX', 24 * 60 * 60); // Store token for 24 hours
+      } catch (error) {
+        console.error("Error storing token in Redis:", error);
+      }
+
+      return res.status(200).send({ message: "Login successful", user: userWithoutPassword });
     } catch (error) {
       console.error("Error during login:", error.message);
       return res.status(500).send({ error: "Internal Server Error" });
     }
+  }
+
+  // Sign-out the user and delete the token
+  static async logoutUser(req, res) {
+    // Retrieve the user from the token
+    const token = req.headers['x-token'];
+    if (!token) return res.status(401).json({ error: 'Unauthorized' });
+
+    const tokenKey = `auth_${token}`;
+    const userId = await redisClient.get(tokenKey);
+    if (!userId) return res.status(401).json({ error: 'Unauthorized' });
+
+    // Delete the token in Redis
+    await redisClient.del(tokenKey);
+
+    return res.status(204).send();
   }
 
   // Update user data

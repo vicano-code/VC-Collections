@@ -1,7 +1,7 @@
 const express = require('express');
 const ProductsController = require('../controllers/ProductsController');
 const UsersController = require('../controllers/UsersController');
-const PaymentCheckoutController = require('../controllers/PaymentCheckoutController');
+const CheckoutController = require('../controllers/CheckoutController');
 
 const router = express.Router();
 
@@ -15,6 +15,6 @@ router.post ('/products/create', ProductsController.createProduct);
 router.post('/users/login', UsersController.loginUser);
 router.post('/users/register', UsersController.addNewUser);
 router.post('/users/addOrder', UsersController.addOrder);
-router.post('/cart/checkout', PaymentCheckoutController.processPayment);
+router.post('/cart/checkout', CheckoutController.processPayment);
 
 module.exports = router;
