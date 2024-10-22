@@ -87,9 +87,14 @@ class UsersController {
 
       // Generate a token and store it in Redis
       try {
+        if (!redisClient.isAlive()) {
+          console.log("Redis client is not connected. Attempting to reconnect...");
+          await redisClient.client.connect();
+        }
         const token = uuidv4();
         const tokenKey = `auth_${token}`;
-        await redisClient.set(tokenKey, user._id.toString(), 'EX', 24 * 60 * 60); // Store token for 24 hours
+        await redisClient.set(tokenKey, user._id.toString(), 24 * 60 * 60); // Store token for 24 hours
+        console.log('redis storage successful');
       } catch (error) {
         console.error("Error storing token in Redis:", error);
       }

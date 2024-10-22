@@ -7,9 +7,17 @@ class RedisClient {
     this.client.on('error', (err) => {
       console.log(`Redis Client Error: ${err.message}`);
     });
+
     this.client.on('connect', () => {
-      // console.log('Redis client connected');
+      console.log('Redis client connected');
     });
+
+    this.client.on('end', () => {
+      console.log('Redis client disconnected');
+    });
+
+    // Attempt to connect immediately
+    this.client.connect().catch(err => console.error('Redis connection failed:', err));
   }
 
   // Check if Redis is connected
@@ -25,7 +33,7 @@ class RedisClient {
   // Creates a new key in redis with a specific duration
   async set(key, value, duration) {
     await this.client.set(key, value, {
-      EX: duration, // Duration in seconds
+      EX: duration, // Set expiration time in seconds
     });
   }
 
