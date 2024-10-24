@@ -1,6 +1,7 @@
-const dbClient = require("../utils/db");
-const redisClient = require('../utils/redis');
+import redisClient from '../utils/redis';
+import dbClient from "../utils/db";
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const { ObjectId } = require('mongodb');
 
 class CheckoutController {
 
@@ -68,11 +69,11 @@ class CheckoutController {
         console.log(token);
 
         // Fetch line items from the session in stripe using the session_id from webhook
+        let orderData = []; // Initialize an empty array to store order data
+
         try {
           const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
-          // console.log(lineItems);
-
-          let orderData = []; // Initialize an empty array to store order data
+          console.log(lineItems);
 
           lineItems.data.forEach((item) => {
             orderData.push({
@@ -92,15 +93,16 @@ class CheckoutController {
         }
         
         // Update user order history
-        try {          
+        try {
           const userId = await redisClient.get(token);
+          console.log(userId);
           if (userId) {
-            const user = await dbClient.users.findOne({ _id: userId });
+            const user = await dbClient.users.findOne({ _id: new ObjectId(userId) });
             if (user) {
               const updatedOrderHistory = [...(user.orderHistory || []), ...orderData];
               const update = { $set: { orderHistory: updatedOrderHistory } };
 
-              await dbClient.users.updateOne({ _id: userId }, update);
+              await dbClient.users.updateOne({ _id: new ObjectId(userId) }, update);
               console.log("Order history updated successfully");
             }
           }

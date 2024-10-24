@@ -90,7 +90,7 @@ class UsersController {
       // Return the token and user to the client
       return res.status(200).send({
         message: 'Login successful',
-        token,
+        tokenKey,
         user: userWithoutPassword // Exclude password from response
       });
     } catch (error) {
@@ -141,37 +141,6 @@ class UsersController {
 
     return res.status(204).send();
   }
-
-  /* Update user data
-  static async addOrder(req, res) {
-    const email = req.body.userData.email;
-    const orderData = req.body.orderData;
-
-    try {
-      // Fetch current user data to get the existing order history
-      const user = await dbClient.users.findOne({ email });
-      
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-      
-      const updatedOrderHistory = [...(user.orders || []), ...orderData];
-      const update = { $set: { orderHistory: updatedOrderHistory } };
-
-      const result = await dbClient.users.updateOne({ email }, update);
-
-      if (result.modifiedCount > 0) {
-        console.log("Document updated successfully");
-        return res.status(200).json({ message: "Order added successfully" });
-      } else {
-        console.log("No documents matched the filter. No updates were made.");
-        return res.status(304).json({ message: "No changes made" });
-      }
-    } catch {
-      console.error("Error updating document:", error);
-      res.status(500).json({ message: "An error occurred while updating the order" });
-    }
-  } */
 
   // Delete user from database
   static async deleteUser(req, res) {

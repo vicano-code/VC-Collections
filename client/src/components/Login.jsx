@@ -30,9 +30,9 @@ const Login = () => {
         }
       );
       if (response.status === 200) {
-        const token = response.data.token; // Extract the token and user from the response
-        const user = response.data.user; // Extract the token and user from the response
-        localStorage.setItem('token', token); // Store the token to localStorage
+        const tokenKey = response.data.tokenKey; // Extract the token from the response
+        const user = response.data.user; // Extract the user from the response
+        localStorage.setItem('token', tokenKey); // Store the token to localStorage
        
         // console.log(token);
         // console.log(user);
