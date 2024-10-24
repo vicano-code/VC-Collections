@@ -3,12 +3,12 @@ import { useLocation } from "react-router-dom";
 
 const UserAccount = () => {
   const location = useLocation();
-  const userData = location.state?.userData;
-  const lastLogin = userData.user.loginHistory.slice(-2, -1)[0];
-  console.log(userData);
+  const user = location.state?.user;
+  const lastLogin = user.loginHistory.slice(-2, -1)[0];
+  console.log(user);
   return (
     <div id='userAcct'>
-      <h5>Welcome {userData.user.name}</h5>
+      <h5>Welcome {user.name}</h5>
       <br />
       <p>Last Login: {lastLogin}</p>
       <h6>Order History</h6>
@@ -24,7 +24,7 @@ const UserAccount = () => {
           </tr>
         </thead>
         <tbody>
-        {userData.orders ? userData.orders.map((order) => (
+        {user.orders ? user.orders.map((order) => (
           <tr>
             <td>{order.name}</td>
             <td>{order.qty}</td>

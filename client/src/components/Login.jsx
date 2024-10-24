@@ -10,32 +10,45 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
+  const handleLogin = async (event) => {
     // Prevent the default form submission behavior
     event.preventDefault();
 
     const email = document.querySelector("#email").value;
     const password = document.querySelector("#password").value;
+    const credentials = btoa(`${email}:${password}`); // Base64 encode the credentials
 
     try {
       const response = await axios.post(
         "http://localhost:5000/users/login",
-        { email, password },
-        { headers: { "Content-Type": "application/json" } }
+        {}, // Passing an empty body since the credentials are in the headers
+        { 
+          headers: { 
+          'Authorization': `Basic ${credentials}`,
+          "Content-Type": "application/json" 
+          } 
+        }
       );
-      const userData = response.data;
-      // console.log("User:", userData);
-      setErrorMessage("Login Successful...redirecting");
-      setTimeout(() => {
-        setErrorMessage("");
-        formRef.current.reset(); // Clear the entire form
-        // Redirect to User account page and pass the user data to the UserAccount component
-        navigate("/userAccount", { state: { userData } }); 
-      }, 3000);
+      if (response.status === 200) {
+        const token = response.data.token; // Extract the token and user from the response
+        const user = response.data.user; // Extract the token and user from the response
+        localStorage.setItem('token', token); // Store the token to localStorage
+       
+        // console.log(token);
+        // console.log(user);
 
+        setErrorMessage("Login Successful...redirecting");
+        setTimeout(() => {
+          setErrorMessage("");
+          formRef.current.reset(); // Clear the login form
+          // Redirect to User account page and pass the user data to the UserAccount component
+          navigate("/userAccount", { state: { user } }); 
+        }, 3000);
+        console.log('Login successful');
+      }
     } catch (error) {
-      console.error("Error:", error.message);
-      setErrorMessage("Error: " + error.message);
+      console.error("Error during login:", error.message);
+      setErrorMessage("Error during login: " + error.message);
     }
   };
   return (
@@ -56,7 +69,7 @@ const Login = () => {
                   </div>
                   <div className="col-md-6 col-lg-7 d-flex align-items-center">
                     <div className="card-body p-4 p-lg-5 text-black">
-                      <form ref={formRef} onSubmit={handleSubmit}>
+                      <form ref={formRef} onSubmit={handleLogin}>
                         <div className="d-flex align-items-center mb-3 pb-1">
                           <span className="h2 fw-normal mb-0">LOGIN</span>
                         </div>

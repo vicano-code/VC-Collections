@@ -5,6 +5,7 @@ import redisClient from '../utils/redis';
 
 class UsersController {
   // Add registered user in database
+
   static async addNewUser(req, res) {
     try {
       const { name, email, password } = req.body;
@@ -72,21 +73,11 @@ class UsersController {
       // Successfully authenticated
       const { password: _, ...userWithoutPassword } = user; // Omit password from response
 
-      // update login history in DB
+      // Update login history
       const currentDate = new Date(Date.now()).toUTCString();
-      const updatedLoginHistory = [...(user.loginHistory || []), currentDate];
-      const update = {
-        $set: { loginHistory: updatedLoginHistory },
-      };
-      const result = await dbClient.users.updateOne({ email }, update);
-      if (result.modifiedCount > 0) {
-        console.log("Document updated successfully");
-      } else {
-        console.log("No documents matched the filter. No updates were made.");
-      }
+      await dbClient.users.updateOne({ email }, { $push: { loginHistory: currentDate } });
 
       // Generate a token and store it in Redis
-      try {
         if (!redisClient.isAlive()) {
           console.log("Redis client is not connected. Attempting to reconnect...");
           await redisClient.client.connect();
@@ -94,15 +85,44 @@ class UsersController {
         const token = uuidv4();
         const tokenKey = `auth_${token}`;
         await redisClient.set(tokenKey, user._id.toString(), 24 * 60 * 60); // Store token for 24 hours
-        console.log('redis storage successful');
-      } catch (error) {
-        console.error("Error storing token in Redis:", error);
-      }
+        console.log('Redis storage successful');
 
-      return res.status(200).send({ message: "Login successful", user: userWithoutPassword });
+      // Return the token and user to the client
+      return res.status(200).send({
+        message: 'Login successful',
+        token,
+        user: userWithoutPassword // Exclude password from response
+      });
     } catch (error) {
       console.error("Error during login:", error.message);
       return res.status(500).send({ error: "Internal Server Error" });
+    }
+  }
+
+  // Retrieve the user from redis based on the token
+  static async getMe(req, res) {
+    const token = req.headers['x-token'];
+    if (!token) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const tokenKey = `auth_${token}`;
+
+    try {
+      const userId = await redisClient.get(tokenKey);
+      if (!userId) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+      const userObj = { _id: new ObjectId(userId) };
+      const projection = { projection: { email: 1 } };
+      const user = await dbClient.users.findOne(userObj, projection);
+      if (!user) {
+        return res.status(401).json({ error: 'Unauthorized' });
+      }
+      return res.status(200).json({ id: user._id, email: user.email });
+    } catch (err) {
+      console.error('Error retrieving user:', err);
+      return res.status(500).json({ error: 'Internal Server Error' });
     }
   }
 
@@ -122,7 +142,7 @@ class UsersController {
     return res.status(204).send();
   }
 
-  // Update user data
+  /* Update user data
   static async addOrder(req, res) {
     const email = req.body.userData.email;
     const orderData = req.body.orderData;
@@ -151,7 +171,7 @@ class UsersController {
       console.error("Error updating document:", error);
       res.status(500).json({ message: "An error occurred while updating the order" });
     }
-  }
+  } */
 
   // Delete user from database
   static async deleteUser(req, res) {

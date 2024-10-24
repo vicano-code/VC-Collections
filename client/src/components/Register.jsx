@@ -35,7 +35,7 @@ const Register = () => {
       setTimeout(() => {
         setErrorMessage("") // clear
         formRef.current.reset(); // Clear the entire form
-        navigate("/"); // Redirect to home page
+        navigate("/users/login"); // Redirect to login page
       }, 3000);
 
     } catch (error) {
