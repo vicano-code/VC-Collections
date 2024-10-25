@@ -1,7 +1,8 @@
 //import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { addCart, delCart } from "../redux/action";
-import Checkout from './checkout'
+import Checkout from './checkout';
+import "../styles/Cart.css";
 
 const Cart = () => {
   // Extract data from redux state

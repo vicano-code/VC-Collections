@@ -10,8 +10,10 @@ import Footer from "./components/Footer";
 import Contact from './components/Contact';
 import Cart from './components/Cart';
 import UserAccount from './components/UserAccount';
-
+import AdminPage from './components/AdminPage';
+import AdminLogin from './components/AdminLogin';
 import { Routes, Route } from 'react-router-dom';
+
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/userAccount" element={<UserAccount />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/dashboard" element={<AdminPage />} />
       </Routes>
       <Footer />
     </>

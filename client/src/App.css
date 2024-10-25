@@ -4,14 +4,22 @@
 
 /* Navbar */
 .myNavbar {
-  background-color: black;
+  background-color: #282d32;
+  color:#f0f9ff;
+}
+.navbar-nav a{
+  font-size: 18px;
 }
 #logo {
   margin-left: 7vw;
 }
+.nav-item {
+  color: white;
+}
 #contact {
   margin-right: 7vw;
 }
+
 #info{
   margin: 1.5rem 10vw;
   color: rgb(160, 23, 23);
@@ -21,18 +29,14 @@
   position: relative;
   animation: mymove 5s infinite;
 }
+
 @keyframes mymove {
   from {left: 0px;}
   to {left: 500px;}
 }
 
-
-/* Navbar */
-.navbar-nav a{
-  font-size: 18px;
-}
 /* Home */
-.advert{
+.advert {
   display:block;
 }
 .swiper-slide img{
@@ -41,7 +45,7 @@
 }
 
 /* About */
-#about{
+#about {
   display: flex;
   flex-direction: column;
   gap: 2rem;
@@ -53,52 +57,6 @@
   font-weight: 500;
 }
 
-/* Footer */
-#footer {
-  position: fixed;
-  bottom: 0;
-  height: 12vh;
-  width: 100%;
-  background-color: rgb(10, 11, 14);
-  color: white;
-}
-#designer {
-  display: flex;
-  margin-top: 4px;
-  font-size: 18px;
-}
-
-/* Cart */
-#cart {
-  margin-top: 3rem;
-  display: grid;
-  place-items: center;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-table {
-  border-spacing: 30px;
-}
-th, td {
-  padding: 15px;
-}
-tr {
-  border-bottom: 1px solid #ddd;
-  font-size: 14px;
-}
-tr:hover {background-color: #D6EEEE;}
-
-.cartBtn {
-  background-color: white;
-  font-size: normal;
-  width: 25px;
-  height: 25px;
-  border-radius: 100%;
-}
-.cartBtn:hover {
-  background-color: black;
-  color: white;
-}
-
 /* UserAccout */
 #userAcct {
   margin-top: 3rem;
@@ -106,4 +64,3 @@ tr:hover {background-color: #D6EEEE;}
   place-items: center;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-

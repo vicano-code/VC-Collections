@@ -48,7 +48,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Error during login:", error.message);
-      setErrorMessage("Error during login: " + error.message);
+      setErrorMessage("Incorrect email or password. Please try again");
     }
   };
   return (

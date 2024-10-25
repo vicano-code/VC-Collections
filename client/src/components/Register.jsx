@@ -1,43 +1,55 @@
-import React, { useState, useRef } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
-  // Create ref to access the form element
-  const formRef = useRef(null);
-  const [errorMessage, setErrorMessage] = useState(""); // Error state
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    // Prevent the default form submission behavior
-    event.preventDefault();
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-    const name = document.querySelector("#name").value;
-    const email = document.querySelector("#email").value;
-    const password = document.querySelector("#password").value;
-    const repeatPassword = document.querySelector("#repeatPassword").value;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    if (password !== repeatPassword) {
-      setErrorMessage("Passwords do not match."); // Set error if passwords don't match
+    // Password match validation
+    if (formData.password !== formData.confirmPassword) {
+      setErrorMessage("Passwords do not match");
       return;
-    } else {
-      setErrorMessage("");
     }
 
+    // Handle form submission here (e.g., send data to API)
     try {
       const response = await axios.post(
         "http://localhost:5000/users/register",
-        { name, email, password },
+        formData,
         { headers: { "Content-Type": "application/json" } }
       );
       console.log("User added:", response.data);
-      setErrorMessage("Registration Successful...rediecting");
+      setSuccessMessage("Sign-up successful!...redirecting");
       setTimeout(() => {
-        setErrorMessage("") // clear
-        formRef.current.reset(); // Clear the entire form
-        navigate("/users/login"); // Redirect to login page
+        setErrorMessage(""); // clear
+        // Reset form fields
+        setFormData({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
+        navigate("/login"); // Redirect to login page
       }, 3000);
-
     } catch (error) {
       // console.error("Error:", error.message);
       setErrorMessage("Error: " + error.message);
@@ -45,123 +57,89 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <section className="vh-100 bg-image mt-5">
-        <div className="mask d-flex align-items-center gradient-custom-3">
-          <div className="container h-100">
-            <div className="row d-flex justify-content-center align-items-center h-100">
-              <div className="col-12 col-md-9 col-lg-7 col-xl-6">
-                <div className="card" style={{ "borderRadius": "15px" }}>
-                  <div className="card-body p-5 mb-3">
-                    <span className="h2 fw-normal mb-0">REGISTER</span>
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-6">
+          <div className="card p-4 shadow mb-5" style={{ borderRadius: "15px" }}>
+            <h2 className="text-center mb-4">Sign Up</h2>
 
-                    <form
-                      ref={formRef}
-                      id="myForm"
-                      onSubmit={handleSubmit}
-                    >
-                      <div className="form-outline mb-4">
-                        <input
-                          type="text"
-                          id="name"
-                          name="name"
-                          className="form-control form-control-lg"
-                          autoComplete="name"
-                          required
-                        />
-                        <label className="form-label" htmlFor="name">
-                          Your Name
-                        </label>
-                      </div>
-
-                      <div className="form-outline mb-4">
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          className="form-control form-control-lg"
-                          autoComplete="email"
-                          required
-                        />
-                        <label className="form-label" htmlFor="email">
-                          Your Email
-                        </label>
-                      </div>
-
-                      <div className="form-outline mb-4">
-                        <input
-                          type="password"
-                          id="password"
-                          name="password"
-                          className="form-control form-control-lg"
-                          required
-                        />
-                        <label className="form-label" htmlFor="password">
-                          Password
-                        </label>
-                      </div>
-
-                      <div className="form-outline mb-4">
-                        <input
-                          type="password"
-                          id="repeatPassword"
-                          name="repeatPassword"
-                          className="form-control form-control-lg"
-                          required
-                        />
-                        <label className="form-label" htmlFor="repeatPassword">
-                          Repeat your password
-                        </label>
-                      </div>
-
-                      <div className="form-check d-flex justify-content-center mb-5">
-                        <input
-                          className="form-check-input me-2"
-                          type="checkbox"
-                          name="termsOfService"
-                          id="termsOfService"
-                          required
-                        />
-                        <label className="form-check-label" htmlFor="termsOfService">
-                          I agree all statements in{" "}
-                          <a href="#!" className="text-body">
-                            <u>Terms of service</u>
-                          </a>
-                        </label>
-                      </div>
-                      {/* Render the error message if it exists */}
-                      {errorMessage && (
-                        <p style={{ color: "red" }}>{errorMessage}</p>
-                      )}
-
-                      <div className="d-flex justify-content-center">
-                        <button
-                          type="submit"
-                          className="btn btn-success btn-block btn-lg gradient-custom-4 text-body"
-                        >
-                          Register
-                        </button>
-                      </div>
-
-                      <p className="text-center text-muted mt-5 mb-0">
-                        Have already an account?{" "}
-                        <NavLink
-                          className="nav-link fw-bold text-body"
-                          to="/Login"
-                        >
-                          <u>Login here</u>
-                        </NavLink>
-                      </p>
-                    </form>
-                  </div>
-                </div>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3 d-flex align-items-center">
+                <label className="form-label me-3" htmlFor="name">
+                  Name:
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  className="form-control"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
               </div>
-            </div>
+
+              <div className="mb-3 d-flex align-items-center">
+                <label className="form-label me-3" htmlFor="email">
+                  Email:
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  className="form-control"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="mb-3 d-flex align-items-center">
+                <label className="form-label me-3" htmlFor="password">
+                  Password:
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  className="form-control"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="mb-3 d-flex align-items-center">
+                <label className="form-label me-3" htmlFor="confirmPassword">
+                  Confirm Password:
+                </label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  className="form-control"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              {errorMessage && <p className="text-danger">{errorMessage}</p>}
+              {successMessage && (
+                <p className="text-success">{successMessage}</p>
+              )}
+
+              <div className="d-flex justify-content-center">
+                <button type="submit" className="btn btn-primary">
+                  Sign Up
+                </button>
+              </div>
+            </form>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
-};
+}
 
 export default Register;

@@ -7,7 +7,7 @@ const Header = () => {
 
   return (
     <div>
-      <nav className="navbar navbar-expand-lg py-3 shadow-sm bg-white">
+      <nav className="navbar navbar-expand-lg py-3 shadow-sm">
         <div className="container">
           <NavLink className="navbar-brand fw-bold fs-4" to="/">
             VC-Collections
@@ -47,7 +47,9 @@ const Header = () => {
               </li>
             </ul>
             <div className="buttons">
-              <NavLink to="/login" className="btn btn-outline-dark">Login
+              <NavLink to="/admin/login" className="btn btn-outline-dark ms-2">Admin
+              </NavLink>
+              <NavLink to="/login" className="btn btn-outline-dark ms-2">Login
               </NavLink>
               <NavLink to="/Register" className="btn btn-outline-dark ms-2">
                 <i className="fa fa-user-plus me-1"></i> Sign-up

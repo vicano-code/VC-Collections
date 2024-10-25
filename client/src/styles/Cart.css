@@ -1,0 +1,27 @@
+/* Cart */
+#cart {
+  margin-top: 3rem;
+  display: grid;
+  place-items: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+#cart > table {
+  border-spacing: 30px;
+}
+#cart > th, td {
+  padding: 15px;
+}
+tr {
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.cartBtn {
+  background-color: white;
+  color: black;
+  font-size: normal;
+  width: 25px;
+  height: 40px;
+  border: 1px solid black;
+  border-radius: 100%;
+}
