@@ -9,8 +9,17 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+app.use(
+  "/webhook",
+  express.json({
+    verify: (req, res, buf) => {
+      req.rawBody = buf.toString();
+    },
+  })
+);
+
 // Middleware to parse the raw body for webhook verification
-app.use('/webhook', bodyParser.raw({ type: 'application/json' }));
+// app.use('/webhook', bodyParser.raw({ type: 'application/json' }));
 
 // Middleware
 app.use(cors());

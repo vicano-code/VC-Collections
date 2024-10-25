@@ -21,14 +21,18 @@ const UserAccount = () => {
             <th>Product</th>
             <th>Quantity</th>
             <th>Price</th>
+            <th>Status</th>
+            <th>Date</th>
           </tr>
         </thead>
         <tbody>
-        {user.orders ? user.orders.map((order) => (
+        {user.orderHistory ? user.orderHistory.slice().reverse().map((item, index) => (
           <tr>
-            <td>{order.name}</td>
-            <td>{order.qty}</td>
-            <td>$ {order.price}</td>
+            <td>{item.Item_name}</td>
+            <td>{item.Quantity}</td>
+            <td>{item.Price} {item.currency}</td>
+            <td>{item.paymentStatus}</td>
+            <td>{item.date}</td>
           </tr>
         )) : <></>}
         </tbody>

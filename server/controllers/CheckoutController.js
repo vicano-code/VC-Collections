@@ -50,7 +50,7 @@ class CheckoutController {
     // Verify the webhook signature
     try {
       event = stripe.webhooks.constructEvent(
-        req.body,
+        req.rawBody,
         req.headers["stripe-signature"],
         process.env.STRIPE_WEBHOOK_SECRET
       );
@@ -84,6 +84,7 @@ class CheckoutController {
               Price: item.amount_total / 100, // convert to usd
               currency: item.currency,
               paymentStatus: session.payment_status,
+              date: new Date(Date.now()).toLocaleString()
             });
           });
           console.log(orderData)
