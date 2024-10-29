@@ -3,7 +3,7 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 require('dotenv').config();
 
 // Using MongoDB Atlas cloud storage
-const uri = process.env.DB_URI || 'undefined';
+const uri = process.env.MONGODB_URI || 'undefined';
 
 class DBClient {
   constructor() {
