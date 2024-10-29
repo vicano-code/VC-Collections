@@ -1,7 +1,7 @@
 import express from 'express';
 import routes from './routes/index';
 import cors from 'cors';
-import bodyParser from 'body-parser';
+// import bodyParser from 'body-parser';
 
 
 require('dotenv').config();
@@ -18,11 +18,11 @@ app.use(
   })
 );
 
-// Middleware to parse the raw body for webhook verification
-// app.use('/webhook', bodyParser.raw({ type: 'application/json' }));
-
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'https://vc-collections.vercel.app',
+  credentials: true,
+}));
 app.use(express.json());
 
 // Use the routes
