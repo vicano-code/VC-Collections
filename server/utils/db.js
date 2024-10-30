@@ -21,6 +21,7 @@ class DBClient {
         strict: true,
         deprecationErrors: true,
       },
+      ssl: true,
     });
 
     this.connectDB();
