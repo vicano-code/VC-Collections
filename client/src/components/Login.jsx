@@ -42,7 +42,7 @@ const Login = () => {
           setErrorMessage("");
           formRef.current.reset(); // Clear the login form
           // Redirect to User account page and pass the user data to the UserAccount component
-          navigate(`${backendUrl}/userAccount`, { state: { user } }); 
+          navigate('/userAccount', { state: { user } }); 
         }, 3000);
         console.log('Login successful');
       }
