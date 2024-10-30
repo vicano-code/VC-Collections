@@ -20,7 +20,7 @@ function AdminLogin() {
       //localStorage.setItem('token', response.data.token);
       // Redirect to the admin dashboard
       if (username === 'admin' && password === 'admin') {
-        navigate(`${backendUrl}/admin/dashboard`);
+        navigate(`/admin/dashboard`);
       }
     //} catch (error) {
       //setError('Invalid login credentials');
