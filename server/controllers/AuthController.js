@@ -1,7 +1,7 @@
-const dbClient = require("../utils/db");
-const sha1 = require("sha1");
+import dbClient from '../utils/db.js';
+import sha1 from 'sha1';
 import { v4 as uuidv4 } from 'uuid';
-import redisClient from '../utils/redis';
+import redisClient from '../utils/redis.js';
 
 class AuthController {
   // Add registered user in database
@@ -100,4 +100,4 @@ class AuthController {
   }
 }
 
-module.exports = AuthController;
+export default AuthController;

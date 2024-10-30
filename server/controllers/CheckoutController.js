@@ -1,7 +1,9 @@
-import redisClient from '../utils/redis';
-import dbClient from "../utils/db";
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-const { ObjectId } = require('mongodb');
+import redisClient from '../utils/redis.js';
+import dbClient from "../utils/db.js";
+import { ObjectId } from 'mongodb';
+import Stripe from 'stripe';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 class CheckoutController {
 
@@ -123,4 +125,4 @@ class CheckoutController {
   }
 }
 
-module.exports = CheckoutController;
+export default CheckoutController;

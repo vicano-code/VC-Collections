@@ -1,8 +1,8 @@
-const express = require('express');
-const ProductsController = require('../controllers/ProductsController');
-const AuthController = require('../controllers/AuthController');
-const UsersController = require('../controllers/UsersController');
-const CheckoutController = require('../controllers/CheckoutController');
+import express from 'express';
+import ProductsController from '../controllers/ProductsController.js';
+import AuthController from '../controllers/AuthController.js';
+import UsersController from '../controllers/UsersController.js';
+import CheckoutController from '../controllers/CheckoutController.js';
 
 const router = express.Router();
 
@@ -20,4 +20,4 @@ router.post('/webhook', CheckoutController.processWebhookEvents);
 router.get('/users', UsersController.getAllUsers);
 router.post('/admin/login', UsersController.loginAdmin);
 
-module.exports = router;
+export default router;

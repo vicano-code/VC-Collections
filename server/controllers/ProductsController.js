@@ -1,5 +1,5 @@
-const dbClient = require("../utils/db");
-const { ObjectId } = require("mongodb");
+import dbClient from '../utils/db.js'; // Make sure to add the .js extension
+import { ObjectId } from 'mongodb';
 
 class ProductsController {
   // Create new product
@@ -67,4 +67,4 @@ class ProductsController {
   }
 }
 
-module.exports = ProductsController;
+export default ProductsController;

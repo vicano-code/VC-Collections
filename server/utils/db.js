@@ -1,6 +1,9 @@
 // Mongodb database client
-const { MongoClient, ServerApiVersion } = require("mongodb");
-require('dotenv').config();
+import { MongoClient, ServerApiVersion } from 'mongodb';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 // Using MongoDB Atlas cloud storage
 const uri = process.env.MONGODB_URI || 'undefined';
@@ -37,4 +40,4 @@ class DBClient {
 }
 
 const dbClient = new DBClient();
-module.exports = dbClient;
+export default dbClient;
