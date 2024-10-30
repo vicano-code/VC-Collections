@@ -1,6 +1,4 @@
 {
-  "presets": [
-    ["@babel/preset-env", { "modules": false }], // For modern JavaScript
-    "@babel/preset-react" // For JSX
-  ]
+  "presets": ["@babel/preset-env"]
 }
+
