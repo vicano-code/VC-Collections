@@ -35,7 +35,7 @@ const Register = () => {
     // Handle form submission here (e.g., send data to API)
     try {
       const response = await axios.post(
-        "http://localhost:5000/users/register",
+        `${backendUrl}/users/register`,
         formData,
         { headers: { "Content-Type": "application/json" } }
       );

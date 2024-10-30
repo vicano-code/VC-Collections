@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
-// let userData = {};
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
 
 const Login = () => {
   // Create ref to access the form element
@@ -20,7 +20,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/users/login",
+        `${backendUrl}/users/login`,
         {}, // Passing an empty body since the credentials are in the headers
         { 
           headers: { 
@@ -42,7 +42,7 @@ const Login = () => {
           setErrorMessage("");
           formRef.current.reset(); // Clear the login form
           // Redirect to User account page and pass the user data to the UserAccount component
-          navigate("/userAccount", { state: { user } }); 
+          navigate(`${backendUrl}/userAccount`, { state: { user } }); 
         }, 3000);
         console.log('Login successful');
       }

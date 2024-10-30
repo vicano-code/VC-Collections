@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import '../styles/AdminPage.css';
 
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 function AdminPage() {
   const [products, setProducts] = useState([]);
   const [users, setUsers] = useState([]);
@@ -10,7 +12,7 @@ function AdminPage() {
   // Fetch products from backend
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('/products');
+      const response = await axios.get(`${backendUrl}/products`);
       setProducts(response.data);
       setActiveView('products');
     } catch (error) {
@@ -21,7 +23,7 @@ function AdminPage() {
   // Fetch users from backend
   const fetchUsers = async () => {
     try {
-      const response = await axios.get('/users');
+      const response = await axios.get(`${backendUrl}/users`);
       setUsers(response.data);
       setActiveView('users');
     } catch (error) {
