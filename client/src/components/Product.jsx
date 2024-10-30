@@ -8,6 +8,8 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import axios from "axios";
 
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 const Product = () => {
   // Set state parameters
   const { id } = useParams();
@@ -29,7 +31,7 @@ const Product = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:5000/products/${id}`
+          `${backendUrl}/products/${id}`
         );
         setProduct(response.data);
         setLoading(false);

@@ -4,6 +4,8 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
+
 const Products = () => {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState([]);
@@ -14,7 +16,7 @@ const Products = () => {
     const getProducts = async () => {
       setLoading(true);
       try {
-        const response = await axios.get('http://localhost:5000/products');
+        const response = await axios.get(`${backendUrl}/products`);
         const products = response.data;
         //console.log(products);
         if (componentMounted.current) {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
+const backendUrl = process.env.REACT_APP_BACKEND_URL;
 const key = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 const stripePromise = loadStripe(key);
 
@@ -17,7 +18,7 @@ const Checkout = ({ cartItems }) => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:5000/cart/checkout",
+        `${backendUrl}/cart/checkout`,
         { cartItems, token },
         {
           headers: {
