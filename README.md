@@ -1,40 +1,84 @@
 # VC-Collections - Final Project for ALX Software Engineering Course
 
-VC_Collections is an e-commerce website built with the MERN (MongoDB, Express, React, Node) stack. It allows users to browse products, view product details, add products to their carts, and register an account.
+This repository contains the code for a full-featured e-commerce website developed using the MERN stack. The website offers a seamless shopping experience with a range of functionalities like product browsing, cart management, and secure checkout, along with an admin dashboard for product and user management.
+
+## Tech Stack
+### Frontend
+- HTML, CSS, JavaScript
+- React for building the user interface
+- Redux for state management
+- Bootstrap for responsive styling
+
+### Backend
+- Node.js and Express for server and API management
+- MongoDB for the database
+
+## API Integrations
+- Stripe payment gateway for secure transactions
+- Redis (hosted on Render) for optimized data handling and caching
+- Ngrok for testing Stripe webhooks in a local environment
+
+## Version Control
+- Git/GitHub for version control and collaboration
+
+## Hosting
+Frontend hosted on Vercel
+Backend hosted on Render
 
 ## Features
+- Product Page: Browse products with the ability to filter by category.
+- User Authentication: Users can sign up, log in, and log out securely.
+- Cart Functionality: Add and manage products in a shopping cart.
+- Checkout Process: Complete orders using the Stripe payment gateway.
+- Admin Page: Manage products and users with advanced admin functionality.
 
-- Home Page: This page showcases the latest products and promotions.
-- About Page: This page provides information about the company and its mission.
-- Products Page: This page displays all available products with their images, descriptions, and prices. Users can click on a product to view its details and add it to their cart.
-- Product Page: Here users can see more details about a selected product.
-- Contact Page: This page provides a form for users to contact the company with any questions or concerns.
-- Account Registration: Users can register an account to save their personal and payment information for a faster checkout experience.
-- Account Login Page: Authenticated for users to log in securely to their user account page.
-- User Account Page: Displays a history of orders made by the user, as well as the last login date.
+## Installation
+To run this project locally, ensure you have Node.js installed on your machine and a MongoDB Atlas account.
+1. Clone the repository:
+```bash
+git clone https://github.com/vicano-code/vc-collections.git
+cd vc-collections
+```
+2. Install dependencies:
+- Frontend:
+```bash
+cd client
+npm install
+```
+- Backend:
+```bash
+cd ../server
+npm install
+```
+3. Environment Variables: Create a .env file in the server directory and add your environment variables for MongoDB, Stripe, and Redis configuration.
+4. Run the application:
+- Backend:
+```bash
+cd server
+npm run dev
+```
+- Frontend (on another terminal and in the project directory)(
+```bash
+cd client
+npm start
+```
+5. Testing Stripe Webhooks (Optional): Use [ngrok](https://ngrok.com/) to expose your local server and configure Stripe to send webhook events.
 
-## Technologies Used
+## Usage
+- Product Browsing: Users can view available products and filter them by categories.
+- Authentication: Secure login, signup, and logout.
+- Shopping Cart: Add products to the cart, review items, and adjust quantities.
+- Checkout: Proceed with the checkout process using the integrated Stripe payment gateway.
+- Admin Dashboard: Manage product inventory and user information.
 
-- HTML: Markup language used for the website structure.
-- CSS: Styling language used for the website design.
-- JavaScript: Programming language used for website interactivity.
-- React: JavaScript library used for building reusable UI components.
-- Bootstrap: Front-end framework used for responsive web design.
-- Emailjs SDK: Used for sending emails from the contact form.
-- Redux: For state management.
+## Deployment
+- Frontend: Hosted on [Vercel](https://vercel.com/)
+- Backend: Hosted on [Render](https://render.com/)
 
-## How to Run
+## Contributing
+Contributions are welcome! Please create a pull request or open an issue to discuss improvements, fixes, or suggestions.
 
-- Coming soon...
-
-## How to Use
-
-1. Use the navigation bar to toggle between the different pages.
-2. Browse the products on the Products page and click on a product to view its details.
-3. Add products to your cart by clicking the "Add to Cart" button.
-4. Register an account to save your personal and payment information for a faster checkout experience.
-5. Use the contact form on the Contact page to send a message to the company.
-
-## Conclusion
-
-This e-commerce website provides users with a seamless shopping experience, from browsing products to checkout. Its responsive design makes it accessible on any device.
+## Author
+** Victor Chukwudi Anokwuru **
+- [GitHub Profile](https://github.com/vicano-code)
+- [Linkedin](https://www.linkedin.com/in/victor-anokwuru-19091a81)
